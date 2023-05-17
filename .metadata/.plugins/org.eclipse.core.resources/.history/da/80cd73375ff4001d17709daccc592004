@@ -1,0 +1,5 @@
+package com.planisa.covid.repository;
+
+public class CovidRepository {
+
+}
