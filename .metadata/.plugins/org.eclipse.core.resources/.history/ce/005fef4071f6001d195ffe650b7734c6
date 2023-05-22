@@ -1,0 +1,5 @@
+package com.planisa.covid.Config;
+
+public @interface Provider {
+
+}

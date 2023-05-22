@@ -35,22 +35,27 @@ public class CovidResource {
 	@Autowired //conectar com os métodos 
 	CovidRepository covidRepository;
 	
-	@GetMapping("/covids/get_covids")
+	@GetMapping("")//localhost:8080/api
+	@ApiOperation(value="")
+	public List<Covid> listaStatesApi(){
+		return covidRepository.findAll(); 
+	}
+	
+	@GetMapping("/get_covids")//localhost:8080/api/get_covids
 	@ApiOperation(value="Retorna uma lista com os Estados com cases, deaths")
 	public List<Covid> listaStates(){
 		return covidRepository.findAll();
 	}
 	
-	@GetMapping("/covids/covid_id/{id}")
+	@GetMapping("/covid_id/{id}")//localhost:8080/api/get_covids/{id}
 	@ApiOperation(value="Retorna um Estado com cases, deaths")
 	public Covid listaStateUnico(@PathVariable(value="id") long id){
 		return covidRepository.findById(id);
 	}
 	
 
-	@PostMapping("/covids/get_covids")
+	@PostMapping("/post_covids")//localhost:8080/api/post_covids
 	public ResponseEntity<Covid> criarCovid(@RequestBody Covid covid) {
-		covid.setState("");
         Covid novoCovid = covidRepository.save(covid);
         return ResponseEntity.created(URI.create("/post_covids/" + novoCovid.getId()))
                 .body(novoCovid);
@@ -67,13 +72,13 @@ public class CovidResource {
 	
 
 		
-	@DeleteMapping("covids/delete_covid")
+	@DeleteMapping("/delete_covid/{id}")
 	@ApiOperation(value="Delete um Estado com cases, deaths")
-	public void deletaCovid (@RequestBody Covid covid) {
-		covidRepository.delete(covid);
+	public void deletaCovid (@PathVariable(value="id") long id) {
+		covidRepository.deleteById(id);
 	}
 	
-	@PutMapping("covids/update_covid")
+	@PutMapping("/update_covid")
 	@ApiOperation(value="Atualiza um Estado com cases, deaths")
 	public Covid atualizaCovid(@RequestBody Covid covid) {
 	    return	covidRepository.save(covid);
